@@ -20,3 +20,6 @@
     /* This is added so it doesn't interfere with mouse events in canvas */
     pointer-events: none;
 }
+#obstacles {
+    display: none;
+}

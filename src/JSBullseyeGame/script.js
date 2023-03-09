@@ -55,6 +55,7 @@ window.addEventListener('load', () => {
                 context.stroke(); 
             }
         }
+
         update() {
 
             this.dx = this.game.mouse.x - this.collisionX;
@@ -153,6 +154,7 @@ window.addEventListener('load', () => {
             this.frameX = Math.floor(Math.random() * 4);
             this.frameY = Math.floor(Math.random() * 3);
         }
+
         draw(context) {
             context.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, 
                 this.spriteWidth, this.spriteHeight, this.spriteX, this.spriteY, this.width, this.height);
@@ -170,6 +172,37 @@ window.addEventListener('load', () => {
     }
 
 
+    class Egg {
+        constructor(game) {
+            this.game = game;
+            this.collisionX = Math.random() * this.game.width;
+            this.collisionY = Math.random() * this.game.height
+            this.collisionRadius  = 40;
+            this.image = document.getElementById('egg');
+            this.spriteWidth = 110;
+            this.spriteHeight = 135;
+            this.width = this.spriteWidth;
+            this.height = this.spriteHeight;
+            this.spriteX = this.collisionX + this.width * 0.5;
+            this.spriteY = this.collisionY + this.height * 0.5;
+        }
+
+        draw(context) {
+            context.drawImage(this.image, this.spriteX, this.spriteY);
+
+            if (this.game.debug) {
+                context.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2);
+                context.save();
+                context.globalAlpha = 0.5;
+                context.fill();
+                context.restore();
+                context.stroke();
+            }
+        }
+
+    }
+
+
     class Game {
         constructor(canvas) {
             this.canvas = canvas;
@@ -180,6 +213,9 @@ window.addEventListener('load', () => {
             this.player = new Player(this);
             this.obstacles = [];
             this.numberOfObstacles = 10;
+
+            this.eggs = [];
+            this.maxEggs = 10;
 
             this.debug = true;
 
@@ -220,6 +256,10 @@ window.addEventListener('load', () => {
             const distance = Math.hypot(dy, dx);
             const sumOfRadii = a.collisionRadius + b.collisionRadius;
             return [(distance < sumOfRadii), distance, sumOfRadii, dx, dy];
+        }
+
+        addEgg() {
+
         }
 
         init() {
